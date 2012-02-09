@@ -3,17 +3,17 @@
 #       alchajmer
         verzija="0.1a5"
 #       Datum kreiranja ovog dokumenta je 15.06.2009 22:27:34 CEST
-#       
+#
 #       Ovaj dokument je kreiran uz pomoć Geany 0.16 editora
 #       2009 djura-san (http://lab21.net)
-#       
+#
 #       This program is free software. It comes without any warranty, to
 #       the extent permitted by applicable law. You can redistribute it
 #       and/or modify it under the terms of the Do What The Fuck You Want
 #       To Public License, Version 2, as published by Sam Hocevar. See
 #       http://sam.zoy.org/wtfpl/COPYING for more details.
-#        
-
+#
+               
 baza_obaveza="${HOME}/.alchajmer"
 baza_za_graficki_pregled="$baza_obaveza-graficki-pregled"
 
@@ -126,7 +126,7 @@ provera_baze
 		echo && echo "Obaveze za prekosutra:"
 		echo "$dan2" && echo
 		fi
-		
+
 		if [ -z "$mesec" ]; then echo "Nema obaveza za naredni mesec!" && echo
 		else
 		echo && echo "Lista obaveza za sledeci mesec:"
@@ -199,7 +199,7 @@ brisanje_obaveza () {
 		if [ -z "$kom" ]; then
 			echo "Nema starih obaveza za brisanje!"
 		else
-			
+
 			#Ako ima obaveza onda ce ih prvo ispisati na ekranu i trazice potvrdu od usera za brisanje
 			#Za svaki slucaj ce kopija .alchajmer baze biti sacuvana u .alchajmer.bak
 			#Oprez: ako ovu opciju ponovo pokrenete i ona izbrise barem jednu stavku iz prosle godine
@@ -218,14 +218,13 @@ brisanje_obaveza () {
 					do
 						sed -i "/$linija/d" $baza_obaveza
 					done
-				
 				#brisanje praznih redova iz fajla
 				sed -i '/^$/d' $baza_obaveza
 				echo && echo "Gotovo! Stara arhiva je premestena u $baza_obaveza.bak !"
 			fi
 
 		fi
-		
+
 	fi
 
 
@@ -243,8 +242,8 @@ brisanje_obaveza () {
 		else
 			clear && 	echo "Obaveze koje nisu vremenski ogranicene:"
 			cat -n "$baza_obaveza" | grep "oOo- *"
-			echo && echo -n "Unesite broj obaveze koju zelite da brisete: "; read num	
-				
+			echo && echo -n "Unesite broj obaveze koju zelite da brisete: "; read num
+
 				if [ -z "$num" ]; then
 					echo "Niste izabrali broj obaveze za brisanje!"
 					exit 0

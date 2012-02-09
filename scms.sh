@@ -116,6 +116,7 @@ $0 obavlja sledece operacije:
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
+  <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />
   <script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
 </head>
 
@@ -202,9 +203,11 @@ for post in $(ls $blog_txt_src/)
   <meta name=\"robots\" content=\"index, follow\" />
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
-  <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />"  >> "$blog_output_dir/$blog_archive_dir/$post.html"
+  <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
+  <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/$blog_archive_dir/$post.html"
   $(blog_feeds)
   echo "<script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
+  
 </head>
 
 <body id=\"vrh_strane\">&nbsp;
@@ -281,7 +284,7 @@ for post in $(ls $blog_txt_src/)
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
-  "  >> "$blog_output_dir/index.html"
+  <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/index.html"
   $(blog_feeds)
   echo "  <script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
 </head>
@@ -316,9 +319,10 @@ for post in $(ls $blog_txt_src/)
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
-  "  >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
+  <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
   $(blog_feeds)
   echo "  <script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
+  
 </head>
 
 <body id=\"vrh_strane\">&nbsp;
