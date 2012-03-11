@@ -30,9 +30,9 @@ free_mem(){
   free_mem="$(awk '/^-/ {print $4}' <(free -m))"
   if [ "$free_mem" -gt "$used_mem" ]
     then
-      echo -e "\uE037 \x02$used_mem\x05 |\x01"
+      echo -e "\uE037 \x02$used_mem\x05 MB |\x01"
     else
-      echo -e "\uE037 \x03$used_mem\x05 |\x01"
+      echo -e "\uE037 \x03$used_mem\x05 MB |\x01"
     fi
 }
 

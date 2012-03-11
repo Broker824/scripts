@@ -18,7 +18,7 @@ if [ $# -gt 1 ]
  then
    limit_rate="$(echo $2)"
   else
-   limit_rate="90k"
+   limit_rate="0"
  fi
 
 while [ "$(find "$dl_list" -size +0)" ]
@@ -31,7 +31,7 @@ while [ "$(find "$dl_list" -size +0)" ]
 
 help () {
 echo "$0 - download files with wget by reading list with links
-File with dowload links is in $dl_list
+File with download links is in $dl_list
 
 Usage: $0 limit_rate
 
@@ -46,8 +46,9 @@ If no value, it will be set to 0 (max speed)
 
 
 case $@ in
- -h|--help     ) help ;;
  -d|--download ) main ;;
+ -h|--help     ) help ;;
+  *            ) help ;;
 esac
 
 exit 0
