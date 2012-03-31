@@ -4,7 +4,7 @@
         version="0.0.3a5"
 #       Creation date: 12.05.2011 22:48:35
 #       2011 Radojičić Đurađ (http://lab21.net)
-#       
+#
 #       This program is free software. It comes without any warranty, to
 #       the extent permitted by applicable law. You can redistribute it
 #       and/or modify it under the terms of the Do What The Fuck You Want
@@ -135,32 +135,32 @@ echo '<div class="taglist">' >> $stat_output
 #
 echo "$displayed_songs_tags" | while read listed_song
 do
- 
+
   if [ "$font_changing_cycle" -ge "$style_querry_count" ]; then
-  
+
     #if font is smaller than $font_min_size, we shall use $font_min_size only
     if [ "$font_size" -eq "$font_min_size" ]; then
      font_size="$font_min_size"
     else
      let font_size-="1"
     fi
-    
+
    style_querry_count="0"
-   
+
   else
-   
+
    let style_querry_count+="1"
-  
+
   fi
- 
+
  #array for random colors
  H_SELECTED_COLOR=${font_color[RANDOM%${#font_color[@]}]}
- 
+
  #implement all crap into this crap to make the crapiest crap :o)
  DIV_STYLE_S="<span style=\"font-size:$(echo "$font_size px" | tr -d " ");color:#$H_SELECTED_COLOR;\">"
  DIV_STYLE_E="</span>"
- 
- #songs with links
+
+  #songs with links
  echo "$DIV_STYLE_S$(echo "$listed_song" | awk '{ $1=""; print; }')$DIV_STYLE_E" >> $stat_output.temp
  let style_querry_count-=1
 done
@@ -188,7 +188,7 @@ echo "$displayed_songs" | while read listed_song
 do
  #if we enabled web search and linking, filename will be querry for web search
  search_querry="$(echo "$listed_song" | awk '{ $1=""; print; }' | cut -c2- | sed 's/&/and/g')"
- 
+
  #if search querry is empty then we shall leave no links
  if [ -z "$search_provider" ]
   then
@@ -198,7 +198,7 @@ do
    song_web_search_ss="<a href=\"$search_provider$search_querry\">"
    song_web_search_es="</a>"
   fi
-  
+
  #songs with links
  echo "- $song_web_search_ss $(echo "$listed_song" | awk '{ $1=""; print; }') $song_web_search_es \
  <span class=\"times_played2\">($number_of_plays <span class=\"times_played\">$(echo "$listed_song" | awk '{ print $1 }')</span>x)</span><br/>" >> $stat_output
