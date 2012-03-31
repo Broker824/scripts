@@ -5,11 +5,13 @@ app_limiter="/usr/bin/run_once.sh"
 . ~/.bash-konfiguracija
 
 case $@ in
-  --web-browser  ) $app_limiter $BROWSER    & ;;
-  --voip         ) $app_limiter $VOIP_APP   & ;;
-  --office       ) $app_limiter $OFFICE_APP & ;;
-  --ide          ) $app_limiter $IDE_APP    & ;;
-  --file-manager ) $app_limiter $FM_APP     & ;;
+  --web-browser               ) $app_limiter $BROWSER          & ;;
+  --voip                      ) $app_limiter $VOIP_APP         & ;;
+  --office                    ) $app_limiter $OFFICE_APP       & ;;
+  --ide                       ) $app_limiter $IDE_APP          & ;;
+  --file-manager              ) $app_limiter $FM_APP           & ;;
+  --terminal-emulator         ) $USERTERM         & ;;
+  --terminal-emulator-backup  ) $USERTERM_BACKUP  & ;;
 esac
 
 exit 0
