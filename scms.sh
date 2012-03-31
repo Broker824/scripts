@@ -33,10 +33,12 @@ blog_archive_dir='tekstovi'
 blog_entry_img='/sajt/tekst.png'
 blog_entries_on_homepage='6'
 blog_social_buttons='0'
+#
 blog_feed_full='1'
 blog_feed_full_entries='3'
 blog_feed_short='1'
 blog_feed_short_entries='6'
+#
 blog_index_header='<h1>Đurina laboratorija</h1><br/><br/>Personalni sajt <span class="a2"><a href="/info.html">IT entuzijaste</a></span>, samoproglašenog raketnog fizičara, naučnika i ronina.<br/><br/><br/> <h3>Poslednji unosi:</h3><br/>'
 #blog_archives_header='<h1>Arhiva svih tekstova</h1><br/><br/><div class="kutija"><img src="/sajt/info.png" width="22" height="22" alt="[Info]"/> koristite <span class="podebljano"><code>CTRL+F</code></span> ili taster <span class="podebljano"><code>/</code></span> za brzu pretragu.</div><br/>'
 # API variables that can be used in html templates etc
