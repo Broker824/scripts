@@ -31,13 +31,11 @@ blog_template_dir='/home/djura-san/projects/web_design/work/lab21/trenutni/sajt/
 blog_output_dir='/home/djura-san/projects/web_design/work/lab21/trenutni'
 blog_archive_dir='tekstovi'
 blog_entry_img='/sajt/tekst.png'
-blog_entries_on_homepage='6'
-blog_social_buttons='0'
 #
 blog_feed_full='1'
-blog_feed_full_entries='3'
+blog_feed_full_entries='5'
 blog_feed_short='1'
-blog_feed_short_entries='6'
+blog_feed_short_entries='8'
 #
 blog_index_header='<h1>Đurina laboratorija</h1><br/><br/>Personalni sajt <span class="a2"><a href="/info.html">IT entuzijaste</a></span>, samoproglašenog raketnog fizičara, naučnika i ronina.<br/><br/><br/> <h3>Poslednji unosi:</h3><br/>'
 #blog_archives_header='<h1>Arhiva svih tekstova</h1><br/><br/><div class="kutija"><img src="/sajt/info.png" width="22" height="22" alt="[Info]"/> koristite <span class="podebljano"><code>CTRL+F</code></span> ili taster <span class="podebljano"><code>/</code></span> za brzu pretragu.</div><br/>'
@@ -125,8 +123,8 @@ $0 obavlja sledece operacije:
 <body id=\"vrh_strane\">&nbsp;
 <div id=\"sadrzaj\">
 <div class=\"vrh\">
-   <a href=\"/\">&larr;</a> 
-   <a href=\"/tekstovi/arhiva.html\">Tekstovi</a> 
+   <!--<a href=\"/\">&larr;</a>--> 
+   <a href=\"/index.html\">Tekstovi</a> 
    <a href=\"/projekti.html\">Projekti</a> 
    <a href=\"/info.html\">Autor</a>
 </div><!--vrh--><br/><br/>"  >> "$output_dir/$webpage.html"
@@ -148,9 +146,11 @@ $0 obavlja sledece operacije:
 blog_feeds () {
   if [ "$blog_feed_full" = "1" ]; then
   echo "<link href=\"/tekstovi/dovod.xml\" type=\"application/atom+xml\" rel=\"alternate\" title=\"Kompletni tekstovi\" />" >> "$blog_output_dir/$blog_archive_dir/$post.html"
+  echo "<link href=\"/tekstovi/dovod.xml\" type=\"application/atom+xml\" rel=\"alternate\" title=\"Kompletni tekstovi\" />" >> "$blog_output_dir/index.html"
   fi
   if [ "$blog_feed_short" = "1" ]; then
   echo "<link href=\"/tekstovi/dovod-kratki.xml\" type=\"application/atom+xml\" rel=\"alternate\" title=\"Kratki naslovi sa kategorijama\" />" >> "$blog_output_dir/$blog_archive_dir/$post.html"
+  echo "<link href=\"/tekstovi/dovod-kratki.xml\" type=\"application/atom+xml\" rel=\"alternate\" title=\"Kratki naslovi sa kategorijama\" />" >> "$blog_output_dir/index.html"
   fi
 }
 
@@ -174,7 +174,7 @@ for post in $(ls $blog_txt_src/)
   
     #echo info about operation
     echo "   - $post"
-    
+
     #defining stuff in files
     blog_text_title="$(cat $blog_txt_src/$post | sed q | sed 's/\*/\&#42;/g')"
     blog_text_categories="$(cat "$blog_txt_src/$post" | sed '2q;d' | sed 's/\*/\&#42;/g')"
@@ -183,10 +183,6 @@ for post in $(ls $blog_txt_src/)
 
     #if there is file already, we shall erase it
     if [ -e "$blog_output_dir/$blog_archive_dir/$post.html" ]; then rm -f "$blog_output_dir/$blog_archive_dir/$post.html"; fi
-    
-    ##social buttons
-    blog_social_buttons_source="<br/><img src=\"/sajt/slike/deljenje.png\" width=\"16\" height=\"16\" alt=\"[deljenje]\" /> Deljenje: <a href=\"https://identi.ca/index.php?action=newnotice&status_textarea=$blog_text_title @ $website_address/$blog_archive_dir/$post.html\">Identi.ca</a> - <a href=\"http://www.reddit.com/submit\" onclick=\"window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent(window.location); return false\">reddit</a> - <!--<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-count=\"vertical\">Twitter</a><script type=\"text/javascript\" src=\"//platform.twitter.com/widgets.js\"></script>--><!--<a href=\"http://twitter.com/home/?status=$(echo "$blog_text_title" | tr -s " " "+")+@+$website_address/$blog_archive_dir/$post.html\">Twitter</a><script type=\"text/javascript\" src=\"//platform.twitter.com/widgets.js\"></script>--> - <a href=\"http://www.stumbleupon.com/submit?url=$website_address/$blog_archive_dir/$post.html&title=$(echo "$blog_text_title" | tr -s " " "+")\">StumbleUpon</a>"
-    if [ "$blog_social_buttons" = "1" ]; then blog_social_buttons_html="$blog_social_buttons_source"; fi
     
     #Make individual posts
     #echo $(cat "$blog_template_dir/header.html") >> "$blog_output_dir/$blog_archive_dir/$post.html"
@@ -215,8 +211,8 @@ for post in $(ls $blog_txt_src/)
 <body id=\"vrh_strane\">&nbsp;
 <div id=\"sadrzaj\">
 <div class=\"vrh\">
-   <a href=\"/\">&larr;</a> 
-   <a href=\"/tekstovi/arhiva.html\">Tekstovi</a> 
+   <!--<a href=\"/\">&larr;</a>--> 
+   <a href=\"/index.html\">Tekstovi</a> 
    <a href=\"/projekti.html\">Projekti</a> 
    <a href=\"/info.html\">Autor</a>
 </div><!--vrh--><br/><br/>" >> "$blog_output_dir/$blog_archive_dir/$post.html"
@@ -226,9 +222,10 @@ for post in $(ls $blog_txt_src/)
     <br/><br/>" >> "$blog_output_dir/$blog_archive_dir/$post.html"
     #sed -n '3,${p;}' ili sed '1,3d'
     #<img src=\"/sajt/slike/datum.png\" width=\"16\" height=\"16\" alt=\"[datum]\" /> Datum pisanja: <span class=\"iskoseno\">$blog_text_date</span>
+    echo "<div class=\"tekst_veze\">" >> "$blog_output_dir/$blog_archive_dir/$post.html"
     cat "$blog_txt_src/$post" | sed '1,4d' >> "$blog_output_dir/$blog_archive_dir/$post.html"
-    echo "<br/><span class=\"a2\">$blog_social_buttons_html</span>
-    <br/><br/><div class=\"a2\"><a href=\"#vrh_strane\">vrh strane &uarr;</a></div>" >> "$blog_output_dir/$blog_archive_dir/$post.html"
+    echo "</div><!-- tekst_veze -->" >> "$blog_output_dir/$blog_archive_dir/$post.html"
+    echo "<br/><br/><div class=\"a2\"><a href=\"#vrh_strane\">vrh strane &uarr;</a></div>" >> "$blog_output_dir/$blog_archive_dir/$post.html"
     echo $(cat "$blog_template_dir/footer.html") >> "$blog_output_dir/$blog_archive_dir/$post.html"
     
     #from http://bash.cyberciti.biz/decision-making/find-whether-number-is-odd-even/
@@ -245,12 +242,8 @@ for post in $(ls $blog_txt_src/)
     fi
     
     #Archives links
-    echo "<!-- $blog_text_date --><span class=\"fensi\">$archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
-    
-    #Index N articles
-    #echo "<!-- $blog_text_date --><img src=\"$blog_entry_img\" title=\"\" alt=\"\" /> <span class=\"podebljano\">$blog_text_title</span> <a href=\"/$blog_archive_dir/$post.html\">[nastavite čitanje...]</a> <br /><span class=\"a2\">&raquo; Oznake: <abbr title=\"oznake/tagovi\">$blog_text_categories</abbr> &mdash; Datum pisanja: <span class=\"iskoseno\">$blog_text_date</span></span><br/><br/>" >> "$blog_output_dir/tekstovi_temp.txt"
-    echo "<!-- $blog_text_date --><span class=\"fensi\"><span class=\"iskoseno\">$better_date</span> &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_temp.txt"
-    
+    echo "<!-- $blog_text_date --><span class=\"fensi\">&#9733; $archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
+
     #feed generator
     #  | tr -s "\n" "<br/> " | tr -s "<" "&lt;" | tr -s ">" "&gt;" | tr -s "&" "&amp;"
     if [ "$blog_feed_full" = "1" ]; then
@@ -271,11 +264,10 @@ for post in $(ls $blog_txt_src/)
  #making archives
  echo ' * pravljenje arhiva'
  
- #Making index page
- echo '   - indeks strana'
+ #Making whole archive
+ echo '   - godisnje'
  if [ -e "$blog_output_dir/index.html" ]; then rm -f "$blog_output_dir/index.html"; fi
- #echo $(cat "$blog_template_dir/header.html") >> "$blog_output_dir/index.html"
- echo "<!DOCTYPE HTML>
+  echo "<!DOCTYPE HTML>
 <html lang=\"$html_lang\">
 <head>
   <meta charset=\"$meta_charset\">
@@ -289,60 +281,25 @@ for post in $(ls $blog_txt_src/)
   <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/index.html"
   $(blog_feeds)
   echo "  <script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
-</head>
-
-<body id=\"vrh_strane\">&nbsp;
-<div id=\"sadrzaj\">
-<div class=\"vrh\">
-   <a href=\"/tekstovi/arhiva.html\">Tekstovi</a> 
-   <a href=\"/projekti.html\">Projekti</a> 
-   <a href=\"/info.html\">Autor</a>
-</div><!--vrh--><br/><br/>"  >> "$blog_output_dir/index.html"
- #
- echo "$blog_index_header" >> "$blog_output_dir/index.html"
- echo $(cat "$blog_output_dir/tekstovi_temp.txt" | sort -r | head -n $blog_entries_on_homepage) >> "$blog_output_dir/index.html"
- echo '<br/>' >> "$blog_output_dir/index.html"
- echo $(cat "$blog_template_dir/index.html") >> "$blog_output_dir/index.html"
- echo '<br/>' >> "$blog_output_dir/index.html"
- echo $(cat "$blog_template_dir/footer.html") >> "$blog_output_dir/index.html"
-
- #Making whole archive
- echo '   - godisnje'
- if [ -e "$blog_output_dir/$blog_archive_dir/arhiva.html" ]; then rm -f "$blog_output_dir/$blog_archive_dir/arhiva.html"; fi
- #echo $(cat "$blog_template_dir/header.html") >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
-  echo "<!DOCTYPE HTML>
-<html lang=\"$html_lang\">
-<head>
-  <meta charset=\"$meta_charset\">
-  <title>Arhiva tekstova :: $website_title</title>
-  <meta name=\"description\" content=\"Arhiva tekstova\" />
-  <meta name=\"author\" content=\"$author\" />
-  <meta name=\"robots\" content=\"index, follow\" />
-  <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
-  <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
-  <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
-  <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
-  $(blog_feeds)
-  echo "  <script type=\"text/javascript\" src=\"/sajt/smoothscroll.js\"></script>
   
 </head>
 
 <body id=\"vrh_strane\">&nbsp;
 <div id=\"sadrzaj\">
 <div class=\"vrh\">
-   <a href=\"/\">&larr;</a> 
-   <a href=\"/tekstovi/arhiva.html\">Tekstovi</a> 
    <a href=\"/projekti.html\">Projekti</a> 
    <a href=\"/info.html\">Autor</a>
-</div><!--vrh--><br/><br/>"  >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- echo "<h1>Arhiva svih tekstova ($(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l))</h1>
- <br/> <div class=\"kutija\"><span class=\"a2\"><img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod-kratki.xml\">Kratki naslovi (+oznake)</a> + <img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod.xml\">Kompletni tekstovi</a></span></div><!--<div class=\"kutija\"><img src=\"/sajt/slike/info.png\" width=\"22\" height=\"22\" alt=\"[Info]\"/> koristite <span class=\"podebljano\"><code>CTRL+F</code></span> ili taster <span class=\"podebljano\"><code>/</code></span> za brzu pretragu.</div>-->
- <br/><span class=\"a2\">" >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- #echo "$blog_archives_header" >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- #echo "Ukupan broj tekstova u arhivi: <span class="podebljano">$(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l)</span><br/>" >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- echo $(cat "$blog_output_dir/tekstovi_arhiva.txt" | sort -r) >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- echo '</span><br/><div class="a2"><a href="#vrh_strane">vrh strane &uarr;</a></div>' >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
- echo $(cat "$blog_template_dir/footer.html") >> "$blog_output_dir/$blog_archive_dir/arhiva.html"
+</div><!--vrh--><br/><br/>"  >> "$blog_output_dir/index.html"
+ echo "<h1>Arhiva svih unosa ($(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l))</h1>
+ <br/> <div class=\"kutija\"><img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod-kratki.xml\">Kratki naslovi (+oznake)</a> + <img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod.xml\">Kompletni tekstovi</a></div><!--<div class=\"kutija\"><img src=\"/sajt/slike/info.png\" width=\"22\" height=\"22\" alt=\"[Info]\"/> koristite <span class=\"podebljano\"><code>CTRL+F</code></span> ili taster <span class=\"podebljano\"><code>/</code></span> za brzu pretragu.</div>-->
+ <br/>" >> "$blog_output_dir/index.html"
+ #echo "$blog_archives_header" >> "$blog_output_dir/index.html"
+ #echo "Ukupan broj tekstova u arhivi: <span class="podebljano">$(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l)</span><br/>" >> "$blog_output_dir/index.html"
+ echo '<span class="cisti_linkovi">'  >> "$blog_output_dir/index.html"
+ echo $(cat "$blog_output_dir/tekstovi_arhiva.txt" | sort -r) >> "$blog_output_dir/index.html"
+ echo '</span><!-- cisti_linkovi -->'  >> "$blog_output_dir/index.html"
+ echo '<br/><div class="a2"><a href="#vrh_strane">vrh strane &uarr;</a></div>' >> "$blog_output_dir/index.html"
+ echo $(cat "$blog_template_dir/footer.html") >> "$blog_output_dir/index.html"
 
  #making feed
 if [ "$blog_feed_short" = "1" ] ; then

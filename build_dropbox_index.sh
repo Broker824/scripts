@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 DATE_OF_CHANGING="$(date +"%d%m%Y @%H:%M")"
-TITLE="Đurin javni dropbox direktorijum <br><h4>poslednja izmena $(echo $DATE_OF_CHANGING)</h4>"
+TITLE="Đurin javni dropbox direktorijum <br><h4>poslednja izmena/ažuriranje $(echo $DATE_OF_CHANGING)</h4>"
 OUTPUT_FILE="index.html"
 OUTPUT_FILE2="index2.html"
 IGNORED_FILES="index.html|build_dropbox_index.sh|build_startpage.sh|bookmarks.html|stil.css"

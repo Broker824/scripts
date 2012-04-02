@@ -10,8 +10,8 @@ case $@ in
   --office                    ) $app_limiter $OFFICE_APP       & ;;
   --ide                       ) $app_limiter $IDE_APP          & ;;
   --file-manager              ) $app_limiter $FM_APP           & ;;
-  --terminal-emulator         ) $USERTERM         & ;;
-  --terminal-emulator-backup  ) $USERTERM_BACKUP  & ;;
+  --terminal-emulator         ) $USERTERM                      & ;;
+  --terminal-emulator-backup  ) $USERTERM_BACKUP               & ;;
 esac
 
 exit 0
