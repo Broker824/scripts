@@ -7,7 +7,7 @@ then
  
  #directory search
  if [ "$1" = "-d" ]; then
-  echo -e "Results of searching \"$search_query\" directory in \"$(pwd)\": \n"
+  echo -e "Results of searching for \"$search_query\" directory in \"$(pwd)\": \n"
   # alternative: 2>1 | grep -v 'Permission denied'
   find . -type d -iname "$search_query" 2>/dev/null | grep --color=auto "$search_query"
  fi

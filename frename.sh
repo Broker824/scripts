@@ -6,7 +6,7 @@ then
  cd $dir
 
   for f in *; do
-    mv "$f" "$(echo "$f" | tr -s " " "_" | tr "A-Z" "a-z")" 2>/dev/null &
+    mv "$f" "$(echo "$f" | tr -s " " "_" | tr "A-Z" "a-z")" 2>/dev/null
   done
 
 else

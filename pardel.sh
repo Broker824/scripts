@@ -6,7 +6,7 @@ if [ $# -gt 1 ]; then
 
   #echo search results
   echo -e "Files found: \n"
-  #actually search
+  #search
   find "$directory" -iname "$query" 2>/dev/null | grep --color=auto "$query"
   #sanity check
   echo "Are you sure that you want to delete these files? (y/N)"; read answer
