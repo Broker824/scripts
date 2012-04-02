@@ -7,13 +7,13 @@ then
  
  #directory search
  if [ "$1" = "-d" ]; then
-  echo "Searching for \"$search_query\" directory in \"$(pwd)\"..." && echo
-  find . -type d -iname "$search_query" || echo "$0 was unable to complete search"
+  echo -e "Results of searching \"$search_query\" directory in \"$(pwd)\": \n"
+  find . -type d -iname "$search_query" 2>/dev/null | grep --color=auto "$search_query"
  fi
  #file search
  if [ "$1" = "-f" ]; then
-  echo "Searching for \"$search_query\" file(s) in \"$(pwd)\"..." && echo
-  find . -iname "$search_query" || echo "$0 was unable to complete search"
+  echo -e "Results of searching for \"$search_query\" file(s) in \"$(pwd)\": \n"
+  find . -iname "$search_query" 2>/dev/null | grep --color=auto "$search_query"
  fi
 
 else
