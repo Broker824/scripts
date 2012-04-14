@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 #       scms.sh
-        verzija="0.1a7"
+        verzija="0.1a8"
 #       Datum kreiranja ovog dokumenta je 22.07.2011 00:47:18
 #       
 #       Ovaj dokument je kreiran uz pomoć Geany 0.20 editora
@@ -37,6 +37,8 @@ blog_feed_full_entries='5'
 blog_feed_short='1'
 blog_feed_short_entries='8'
 #
+highlight_odd_years='0'
+#
 blog_index_header='<h1>Đurina laboratorija</h1><br/><br/>Personalni sajt <span class="a2"><a href="/info.html">IT entuzijaste</a></span>, samoproglašenog raketnog fizičara, naučnika i ronina.<br/><br/><br/> <h3>Poslednji unosi:</h3><br/>'
 #blog_archives_header='<h1>Arhiva svih tekstova</h1><br/><br/><div class="kutija"><img src="/sajt/info.png" width="22" height="22" alt="[Info]"/> koristite <span class="podebljano"><code>CTRL+F</code></span> ili taster <span class="podebljano"><code>/</code></span> za brzu pretragu.</div><br/>'
 # API variables that can be used in html templates etc
@@ -54,6 +56,8 @@ sitemap_locations="pub/
 pub/dizajn/
 pub/softver/
 tekstovi/"
+#
+current_date="$(date +"%Y-%m-%d")"
 
 
 cleaner () {
@@ -113,6 +117,7 @@ $0 obavlja sledece operacije:
   <meta name=\"description\" content=\"$meta_description\" />
   <meta name=\"author\" content=\"$author\" />
   <meta name=\"robots\" content=\"index, follow\" />
+  <!--<meta name=\"DC.Date\" content=\"$current_date\" />-->
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
@@ -123,7 +128,6 @@ $0 obavlja sledece operacije:
 <body id=\"vrh_strane\">&nbsp;
 <div id=\"sadrzaj\">
 <div class=\"vrh\">
-   <!--<a href=\"/\">&larr;</a>--> 
    <a href=\"/index.html\">Tekstovi</a> 
    <a href=\"/projekti.html\">Projekti</a> 
    <a href=\"/info.html\">Autor</a>
@@ -199,6 +203,7 @@ for post in $(ls $blog_txt_src/)
   <meta name=\"description\" content=\"$blog_text_title\" />
   <meta name=\"author\" content=\"$author\" />
   <meta name=\"robots\" content=\"index, follow\" />
+  <meta name=\"DC.Date\" content=\"$blog_text_date\" />
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
@@ -211,7 +216,6 @@ for post in $(ls $blog_txt_src/)
 <body id=\"vrh_strane\">&nbsp;
 <div id=\"sadrzaj\">
 <div class=\"vrh\">
-   <!--<a href=\"/\">&larr;</a>--> 
    <a href=\"/index.html\">Tekstovi</a> 
    <a href=\"/projekti.html\">Projekti</a> 
    <a href=\"/info.html\">Autor</a>
@@ -228,24 +232,27 @@ for post in $(ls $blog_txt_src/)
     echo "<br/><br/><div class=\"a2\"><a href=\"#vrh_strane\">vrh strane &uarr;</a></div>" >> "$blog_output_dir/$blog_archive_dir/$post.html"
     echo $(cat "$blog_template_dir/footer.html") >> "$blog_output_dir/$blog_archive_dir/$post.html"
     
-    #from http://bash.cyberciti.biz/decision-making/find-whether-number-is-odd-even/
-    #determine if number is odd or even
-    determine_number="$(echo "$blog_text_date" | tr -s "/" " " | awk '{ print $1 }')"
-    if [ "$(($determine_number % 2))" -eq "0" ]; then
-     #if it is even
-     archive_hilight_start=""
-     archive_hilight_end=""
-    else
-     #if it is odd
-     archive_hilight_start="<span class=\"istaknuto\">"
-     archive_hilight_end="</span>"
+    #check do wee need year highlight
+    if [ "$highlight_odd_years" = "1" ]; then
+      #from http://bash.cyberciti.biz/decision-making/find-whether-number-is-odd-even/
+      #determine if number is odd or even
+      determine_number="$(echo "$blog_text_date" | tr -s "/" " " | awk '{ print $1 }')"
+      if [ "$(($determine_number % 2))" -eq "0" ]; then
+       #if it is even
+       archive_hilight_start=""
+       archive_hilight_end=""
+      else
+       #if it is odd
+       archive_hilight_start="<span class=\"istaknuto\">"
+       archive_hilight_end="</span>"
+      fi
     fi
     
     #Archives links
-    echo "<!-- $blog_text_date --><span class=\"fensi\">&#9733; $archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
+    echo "<!-- $blog_text_date --><span class=\"fensi\"><img src=\"/sajt/slike/zvezda.png\" width=\"16\" height=\"16\" alt=\"[unos]\" /> $archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
 
     #feed generator
-    #  | tr -s "\n" "<br/> " | tr -s "<" "&lt;" | tr -s ">" "&gt;" | tr -s "&" "&amp;"
+    #  | tr -s "\n" "<br/> " | tr -s "<" "&lt;" | tr -s ">" "&gt;" | tr -s "&" "&amp;" | tr -s "'" "&apos;"
     if [ "$blog_feed_full" = "1" ]; then
         blog_feed_text="$(cat "$blog_txt_src/$post" | sed '1,4d' | sed 's/$/<br\/>/g' | sed 's/\*/\&#42;/g' | tr -d "\n")"
         atom_data_type=' type="html"'
@@ -275,6 +282,7 @@ for post in $(ls $blog_txt_src/)
   <meta name=\"description\" content=\"$meta_description\" />
   <meta name=\"author\" content=\"$author\" />
   <meta name=\"robots\" content=\"index, follow\" />
+  <!--<meta name=\"DC.Date\" content=\"$current_date\" />-->
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
@@ -291,8 +299,7 @@ for post in $(ls $blog_txt_src/)
    <a href=\"/info.html\">Autor</a>
 </div><!--vrh--><br/><br/>"  >> "$blog_output_dir/index.html"
  echo "<h1>Arhiva svih unosa ($(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l))</h1>
- <br/> <div class=\"kutija\"><img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod-kratki.xml\">Kratki naslovi (+oznake)</a> + <img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod.xml\">Kompletni tekstovi</a></div><!--<div class=\"kutija\"><img src=\"/sajt/slike/info.png\" width=\"22\" height=\"22\" alt=\"[Info]\"/> koristite <span class=\"podebljano\"><code>CTRL+F</code></span> ili taster <span class=\"podebljano\"><code>/</code></span> za brzu pretragu.</div>-->
- <br/>" >> "$blog_output_dir/index.html"
+ <br/> <div class=\"kutija\"><img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod-kratki.xml\">Kratki naslovi (+oznake)</a> + <img src=\"/sajt/slike/dovod.png\" width=\"16\" height=\"16\" alt=\"[xml]\" /> <a href=\"/tekstovi/dovod.xml\">Kompletni tekstovi</a></div><br/>" >> "$blog_output_dir/index.html"
  #echo "$blog_archives_header" >> "$blog_output_dir/index.html"
  #echo "Ukupan broj tekstova u arhivi: <span class="podebljano">$(cat "$blog_output_dir/tekstovi_arhiva.txt" | sed '/^$/d' | wc -l)</span><br/>" >> "$blog_output_dir/index.html"
  echo '<span class="cisti_linkovi">'  >> "$blog_output_dir/index.html"
