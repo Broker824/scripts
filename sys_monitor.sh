@@ -14,11 +14,11 @@ if [ ! -z "$(setxkbmap -query | grep "layout" | awk '{print $2}' )" ]
 
 battery_status(){
   ac="$(awk '{ gsub(/%|%,/, "");} NR==1 {print $4}' <(acpi -V))"
-  onl="$(grep "on-line" <(acpi -V))"
-  if [ -z "$onl" ] && [ "$ac" -gt "15" ]; then
+  on="$(grep "on-line" <(acpi -V))"
+  if [ -z "$on" ] && [ "$ac" -gt "15" ]; then
     echo -e "\uE04F \x02$ac%\x05 |\x01"
-  elif [ -z "$onl" ] && [ "$ac" -le "15" ]; then
-    echo -e "\uE04F \x04$ac%\x05 |\x01"
+  elif [ -z "$on" ] && [ "$ac" -le "15" ]; then
+    echo -e "\uE04F \x05off\x05 |\x01"
   else
     echo -e "\uE023 \x02$ac%\x05 |\x01"
   fi
@@ -32,7 +32,7 @@ free_mem(){
     then
       echo -e "\uE037 \x02$used_mem\x05 MB |\x01"
     else
-      echo -e "\uE037 \x03$used_mem\x05 MB |\x01"
+      echo -e "\uE037 \x06$used_mem\x05 MB |\x01"
     fi
 }
 
@@ -45,7 +45,7 @@ cpu_usage(){
   read cpu a b c idle rest < /proc/stat
   total=$((a+b+c+idle))
   cpu_usage="$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
-  if [ "$cpu_usage" -gt "50" ]; then echo -e "\uE031 \x03$cpu_usage%"; fi
+  if [ "$cpu_usage" -gt "50" ]; then echo -e "\uE031 \x06$cpu_usage%"; fi
   if [ "$cpu_usage" -le "50" ]; then echo -e "\uE031 \x01$cpu_usage%"; fi
 }
 
@@ -74,7 +74,7 @@ net_speed () {
   RXT=$(ifconfig eth0 | awk '/bytes/ {print $2}' | cut -d: -f2)
   TXT=$(ifconfig eth0 | awk '/bytes/ {print $6}' | cut -d: -f2)
 
-  echo -e "\uE03A \x02$((RXDIF / 1024 / 2))\x01 \uE03B \x03$((TXDIF / 1024 / 2))\x05 |\x01"
+  echo -e "\uE03A \x02$((RXDIF / 1024 / 2))\x01 \uE03B \x06$((TXDIF / 1024 / 2))\x05 |\x01"
 }
 
 

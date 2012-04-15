@@ -30,3 +30,12 @@ echo "packaging...."
 if [ -e "$monsterwm_save_dir" ]; then
     cd .. && tar cjf "$monsterwm_save_dir/monsterwm-$monsterwm_branch-git$(date +%d%m%Y_%H%M).tar.bz2" monsterwm/ --exclude '.*' || echo "there was an error with packaging latest monsterwm ($monsterwm_branch branch) into tar.bz2 archive"
   fi
+
+
+
+# try
+#git checkout moveresize
+#git checkout initlayouts
+#git checkout nmaster
+#git merge moveresize
+#git merge initlayouts
