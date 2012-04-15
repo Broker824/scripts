@@ -2,12 +2,13 @@
 # api from http://sprunge.us/
 curl_parameters='-s'
 
-if [ -z "$2" ]; then paste_type="$1";else paste_type="$2"; fi
-if [ -z "$paste_type" ]; then unset separator; else separator="?"; fi
+# if we pass argument, it will be used as file extension
+if [ -z "$1" ]; then unset file_type; else file_type="?$1"; fi
+#command for uploading using api
+url="$(curl $curl_parameters -sF 'sprunge=<-' http://sprunge.us)"
 
-[[ -t 0 ]]  && url="$(curl $curl_parameters -sF 'sprunge=<-' http://sprunge.us <"$1")" \
-            || url="$(curl $curl_parameters -sF 'sprunge=<-' http://sprunge.us)"
-
-printf "txt:%s %s\n" "$url$separator$paste_type" "$*" >> /tmp/saved.urls
-xclip -i <<< "$url$separator$paste_type" && xclip -o
+# print result and apppend syntax highlighting (if any)
+echo "$(date +%d%m%Y_%H%M):$url$file_type" >> /tmp/saved.urls
+#copy to clipboard
+xclip -i <<< "$url$file_type" && xclip -o
 
