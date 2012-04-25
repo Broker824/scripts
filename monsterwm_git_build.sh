@@ -3,7 +3,8 @@ monsterwm_git_url="https://github.com/c00kiemon5ter/monsterwm"
 monsterwm_git_dir="/home/djura-san/programs/src_revision/git/"
 monsterwm_save_dir="/home/djura-san/programs/linux/wm/monsterwm"
 monsterwm_branch="monocleborders"
-personal_config="/home/djura-san/projects/code/dotfiles-and-configs/monsterwm/config.h"
+monsterwm_merge_branch=""
+personal_config="/home/djura-san/projects/code/dotfiles-and-configs/monsterwm/src/config.h"
 
 #start
 if [ ! -d "$monsterwm_git_dir" ]; then
@@ -36,6 +37,5 @@ if [ -e "$monsterwm_save_dir" ]; then
 # try
 #git checkout moveresize
 #git checkout initlayouts
-#git checkout nmaster
 #git merge moveresize
 #git merge initlayouts

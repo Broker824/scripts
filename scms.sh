@@ -14,7 +14,7 @@
 #       http://sam.zoy.org/wtfpl/COPYING for more details.
 #
 # TODO
-# - colored odd or even years - DONE
+# - colored odd or even years - DONE (disabled atm)
 # - basic categories support - DONE
 # - speed up stuff by writing info to external files (it will use lest cat in realtime) - DONE
 #                     (used shared variables instead of writing to disk... it saves disk life)
@@ -38,9 +38,10 @@ blog_feed_short='1'
 blog_feed_short_entries='8'
 #
 highlight_odd_years='0'
+translate_button='1'
+# try it: <div class="a2"><span class="tekst_veze"><img src="/sajt/slike/translate.png" width="16" height="16" alt="[transalte]" /> <a href="http://translate.google.com/translate?prev=_t&ie=UTF-8&sl=sr&tl=en&u=">Bad English</a></span></div>
 #
 blog_index_header='<h1>Đurina laboratorija</h1><br/><br/>Personalni sajt <span class="a2"><a href="/info.html">IT entuzijaste</a></span>, samoproglašenog raketnog fizičara, naučnika i ronina.<br/><br/><br/> <h3>Poslednji unosi:</h3><br/>'
-#blog_archives_header='<h1>Arhiva svih tekstova</h1><br/><br/><div class="kutija"><img src="/sajt/info.png" width="22" height="22" alt="[Info]"/> koristite <span class="podebljano"><code>CTRL+F</code></span> ili taster <span class="podebljano"><code>/</code></span> za brzu pretragu.</div><br/>'
 # API variables that can be used in html templates etc
 author='djura-san'
 website_title='Đurina laboratorija'
@@ -62,8 +63,7 @@ current_date="$(date +"%Y-%m-%d")"
 
 cleaner () {
  #removing crap
- echo && echo ' * brisu se privremeni sadrzaji'
-
+ echo && echo ' * removing temporary files'
  rm -f "$blog_output_dir/tekstovi_temp.txt"
  rm -f "$blog_output_dir/tekstovi_arhiva.txt"
  rm -Rf "$blog_output_dir/feed-temp/*"
@@ -79,7 +79,7 @@ create_blog_post () {
 
 make_webpages () {
 #echo info about operation
-echo 'Kreiram staticne strane za sajt...'
+echo 'Genearting static pages for site...'
 echo "Sadrzaj se generise u $output_dir
 $0 obavlja sledece operacije:
 "
@@ -350,12 +350,12 @@ fi
 
 
 help () {
-echo "$0 v$verzija - alat za generisanje statičnih sajtova i blogova
-Upotreba: $0 [opcija]
+echo "$0 v$verzija - create static html pages and blogs
+Usage: $0 [option]
 
-Opcije
-  blog   kreiranje bloga
-  site   kreiranje sajta
+Options:
+  blog   generate blog
+  site   generate site
 "
 }
 
