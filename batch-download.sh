@@ -9,7 +9,11 @@ dl_app="1"
 
 
 #set limit rate and check if input is number
-if [[ "$1" == "${1//[^0-9]/}" ]]; then limit_rate="$1"; else limit_rate="0"; fi
+if [ ! -z "$1" ]; then
+   if [[ "$1" == "${1//[^0-9]/}" ]]; then limit_rate="$1"; else limit_rate="0"; fi
+  else
+   limit_rate="0"
+ fi
 
 
 #check if there is file and then download
