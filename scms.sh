@@ -119,6 +119,7 @@ $0 obavlja sledece operacije:
   <meta name=\"robots\" content=\"index, follow\" />
   <!--<meta name=\"DC.Date\" content=\"$current_date\" />-->
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6, minimum-scale=0.5\" />
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
   <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />
@@ -205,6 +206,7 @@ for post in $(ls $blog_txt_src/)
   <meta name=\"robots\" content=\"index, follow\" />
   <meta name=\"DC.Date\" content=\"$blog_text_date\" />
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6, minimum-scale=0.5\" />
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
   <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/$blog_archive_dir/$post.html"
@@ -256,14 +258,14 @@ for post in $(ls $blog_txt_src/)
     if [ "$blog_feed_full" = "1" ]; then
         blog_feed_text="$(cat "$blog_txt_src/$post" | sed '1,4d' | sed 's/$/<br\/>/g' | sed 's/\*/\&#42;/g' | tr -d "\n")"
         atom_data_type=' type="html"'
-        echo "<!-- $blog_text_date --><entry><title$atom_data_type>$blog_text_title</title><link href=\"$website_address/$blog_archive_dir/$post.html\"/><id>$website_address/$blog_archive_dir/$post.html</id><updated>$(echo "$blog_text_date" | tr -s "/" "-")T05:17:00Z</updated><summary$atom_data_type><![CDATA[  $blog_text_title (oznake: $blog_text_categories) <br/><br/> $blog_feed_text  ]]></summary></entry>" >> "$blog_output_dir/feed_full.txt"
+        echo "<!-- $blog_text_date --><entry><title$atom_data_type><![CDATA[ $blog_text_title ]]></title><link href=\"$website_address/$blog_archive_dir/$post.html\"/><id>$website_address/$blog_archive_dir/$post.html</id><updated>$(echo "$blog_text_date" | tr -s "/" "-")T05:17:00Z</updated><summary$atom_data_type><![CDATA[  $blog_text_title (oznake: $blog_text_categories) <br/><br/> $blog_feed_text  ]]></summary></entry>" >> "$blog_output_dir/feed_full.txt"
         #"$blog_output_dir/feed-temp/feed_full_$count.txt"
         #let count+=1
     fi
     
     if [ "$blog_feed_short" = "1" ]; then
         atom_data_type=' type="html"'
-        echo "<!-- $blog_text_date --><entry><title$atom_data_type>$blog_text_title</title><link href=\"$website_address/$blog_archive_dir/$post.html\"/><id>$website_address/$blog_archive_dir/$post.html</id><updated>$(echo "$blog_text_date" | tr -s "/" "-")T05:17:00Z</updated><summary$atom_data_type><![CDATA[  $blog_text_title (oznake: $blog_text_categories) ]]></summary></entry>" >> "$blog_output_dir/feed_short.txt"
+        echo "<!-- $blog_text_date --><entry><title$atom_data_type><![CDATA[ $blog_text_title ]]></title><link href=\"$website_address/$blog_archive_dir/$post.html\"/><id>$website_address/$blog_archive_dir/$post.html</id><updated>$(echo "$blog_text_date" | tr -s "/" "-")T05:17:00Z</updated><summary$atom_data_type><![CDATA[  $blog_text_title (oznake: $blog_text_categories) ]]></summary></entry>" >> "$blog_output_dir/feed_short.txt"
     fi
 
  done
@@ -284,6 +286,7 @@ for post in $(ls $blog_txt_src/)
   <meta name=\"robots\" content=\"index, follow\" />
   <!--<meta name=\"DC.Date\" content=\"$current_date\" />-->
   <link rel=\"me\" type=\"text/html\" href=\"$me_meta_tag\"/>
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=0.6, minimum-scale=0.5\" />
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"/sajt/slike/favicon.ico\" />
   <link rel=\"stylesheet\" href=\"/sajt/glavni_stil.css\" type=\"text/css\" media=\"screen, projection\" />
   <link rel=\"stylesheet\" href=\"/sajt/stampa.css\" type=\"text/css\" media=\"print\" />"  >> "$blog_output_dir/index.html"

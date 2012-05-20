@@ -2,7 +2,15 @@
 app_limiter="/usr/bin/run_once.sh"
 
 # quick fix to load all vars
-. ~/.bash-konfiguracija
+#. ~/.bash-konfiguracija
+BROWSER2="opera_launcher"
+FM_APP="pcmanfm"
+VOIP_APP="skype"
+IDE_APP="geany"
+OFFICE_APP="libreoffice"
+USERTERM="urxvt"
+USERTERM_BACKUP="xterm"
+
 
 case $@ in
   --web-browser               ) $app_limiter $BROWSER          & ;;
