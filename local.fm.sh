@@ -13,9 +13,9 @@
 #
 #important stuff that must not be deleted
 stat_file="$HOME/.local.fm_stat"
-stat_output="$HOME/tmp/local.fm-stat.html"
+#stat_output="$HOME/tmp/local.fm-stat.html" #original
 #stat_output="$HOME/test_$(date +%d%m%Y_%H%m%S).html" #alternative
-
+stat_output="$HOME/projects/web_design/work/lab21/trenutni/pub/ostalo/local.fm.html" #test
 #-----------------------------------------------------------------------
 #user config
 #monitor_start_date='08-06-2011'

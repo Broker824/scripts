@@ -251,7 +251,7 @@ for post in $(ls $blog_txt_src/)
     fi
     
     #Archives links
-    echo "<!-- $blog_text_date --><span class=\"fensi\"><img src=\"/sajt/slike/zvezda.png\" width=\"16\" height=\"16\" alt=\"[unos]\" /> $archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"fensi\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
+    echo "<!-- $blog_text_date --><span class=\"a2\"><img src=\"/sajt/slike/zvezda.png\" width=\"16\" height=\"16\" alt=\"[unos]\" /> $archive_hilight_start<span class=\"iskoseno\">$better_date</span>$archive_hilight_end &mdash;</span> <a href=\"$blog_archive_dir/$post.html\">$blog_text_title</a> <span class=\"a2\"><span class=\"superscript\">$blog_text_categories</span></span><br/>" >> "$blog_output_dir/tekstovi_arhiva.txt"
 
     #feed generator
     #  | tr -s "\n" "<br/> " | tr -s "<" "&lt;" | tr -s ">" "&gt;" | tr -s "&" "&amp;" | tr -s "'" "&apos;"

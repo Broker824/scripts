@@ -14,7 +14,7 @@ if [ ! -d "$monsterwm_git_dir" ]; then
   fi
 
 #delete leftovers
-if [ -d "monsterwm" ]; then rm -rf monsterwm/; fi
+if [ -d "monsterwm" ]; then rm -rf monsterwm; fi
 
 #clone repo and use desired branch
 #long one:  git clone $monsterwm_git_url && cd monsterwm/ && git checkout $monsterwm_branch

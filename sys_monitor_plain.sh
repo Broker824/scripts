@@ -6,9 +6,9 @@
 keyboard_indicator() {
 if [ ! -z "$(setxkbmap -query | grep "layout" | awk '{print $2}' )" ]
   then
-    echo -e "\uE014 \x02$(setxkbmap -query | grep "layout" | awk '{print $2}' )\x01"
+    echo -e "$(setxkbmap -query | grep "layout" | awk '{print $2}' )"
   else
-    echo -e "\uE014 \x01??\x01"
+    echo -e "??"
   fi
 }
 
@@ -16,11 +16,11 @@ battery_status(){
   ac="$(awk '{ gsub(/%|%,/, "");} NR==1 {print $4}' <(acpi -V))"
   on="$(grep "on-line" <(acpi -V))"
   if [ -z "$on" ] && [ "$ac" -gt "15" ]; then
-    echo -e "\uE04F \x02$ac%\x05 |\x01"
+    echo -e "$ac%"
   elif [ -z "$on" ] && [ "$ac" -le "15" ]; then
-    echo -e "\uE04F \x05n/a\x05 |\x01"
+    echo -e "n/a"
   else
-    echo -e "\uE023 \x02$ac%\x05 |\x01"
+    echo -e "$ac%"
   fi
 }
 
@@ -30,9 +30,9 @@ free_mem(){
   free_mem="$(awk '/^-/ {print $4}' <(free -m))"
   if [ "$free_mem" -gt "$used_mem" ]
     then
-      echo -e "\uE037 \x02$used_mem\x05 MB |\x01"
+      echo -e "$used_mem MB"
     else
-      echo -e "\uE037 \x06$used_mem\x05 MB |\x01"
+      echo -e "$used_mem MB"
     fi
 }
 
@@ -45,20 +45,21 @@ cpu_usage(){
   read cpu a b c idle rest < /proc/stat
   total=$((a+b+c+idle))
   cpu_usage="$((100*( (total-prevtotal) - (idle-previdle) ) / (total-prevtotal) ))"
-  if [ "$cpu_usage" -gt "50" ]; then echo -e "\uE031 \x06$cpu_usage%"; fi
-  if [ "$cpu_usage" -le "50" ]; then echo -e "\uE031 \x01$cpu_usage%"; fi
+  #if [ "$cpu_usage" -gt "50" ]; then echo -e "$cpu_usage%"; fi
+  #if [ "$cpu_usage" -le "50" ]; then echo -e "$cpu_usage%"; fi
+  echo -e "$cpu_usage%"
 }
 
 
 cpu_speed() {
   core_speed="$(grep "cpu MHz" /proc/cpuinfo | awk '{ print $4 }' )"
-  echo -e "\x05$core_speed |\x01"
+  echo -e "$core_speed"
 }
 
 
 hdd_space(){
   hdd_space="$(df -P | sort -d | awk '/^\/dev/{s=s (s?" ":"") $5} END {printf "%s", s}')"
-  echo -e "\uE008 \x01$hdd_space\x05 |\x01"
+  echo -e "$hdd_space"
 }
 
 
@@ -66,7 +67,6 @@ hdd_space(){
 net_speed () {
   RXB=$(cat /sys/class/net/eth0/statistics/rx_bytes)
   TXB=$(cat /sys/class/net/eth0/statistics/tx_bytes)
-  sleep 2 
   RXBN=$(cat /sys/class/net/eth0/statistics/rx_bytes)
   TXBN=$(cat /sys/class/net/eth0/statistics/tx_bytes)
   RXDIF=$(echo -e $((RXBN - RXB)) )
@@ -74,7 +74,7 @@ net_speed () {
   RXT=$(ifconfig eth0 | awk '/bytes/ {print $2}' | cut -d: -f2)
   TXT=$(ifconfig eth0 | awk '/bytes/ {print $6}' | cut -d: -f2)
 
-  echo -e "\uE03A \x02$((RXDIF / 1024 / 2))\x01 \uE03B \x06$((TXDIF / 1024 / 2))\x05 |\x01"
+  echo -e "$((RXDIF / 1024 / 2)) $((TXDIF / 1024 / 2))"
 }
 
 
@@ -87,22 +87,11 @@ time_and_date(){
 temperature(){
   cpu_temp="$(sensors | grep "temp1" | cut -c16- | head -c 2)"
   mb_temp="$(sensors | grep "temp2" | cut -c16- | head -c 2)"
-  echo -e "\uE00A \x02$cpu_temp\uE010 $mb_temp\uE010\x05 |\x01"
+  echo -e "$cpu_temp*C $mb_temp*C"
 }
 
 
 # Pipe to status bar
 # [$(keyboard_indicator)]
-output_info="$(net_speed) $(cpu_usage) $(cpu_speed) $(temperature) $(free_mem) $(hdd_space) $(battery_status) $(time_and_date) "
-
-if [ $# -gt 0 ]
-  then
-    destination="$(echo -e $1)"
-  fi
-
-if [ "$destination" = "dwm" ]
-  then
-    xsetroot -name "$output_info"
-  else
-    echo -e "$output_info"
-  fi
+sleep 2
+echo "$(net_speed) $(cpu_usage) $(cpu_speed) $(temperature) $(free_mem) $(hdd_space) $(time_and_date)"

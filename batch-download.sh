@@ -2,7 +2,7 @@
 # wget-list: manage the list of downloaded files
 # as seen on http://www.linux.com/archive/feature/59457 (with tweaks)
 
-dl_list="$HOME/tmp/download.txt"
+dl_list="$HOME/downloads/download_list.txt"
 destination_dir="$HOME/downloads/general"
 dl_app="1"
 # 1 = wget, 2 = curl
